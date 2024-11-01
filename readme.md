@@ -1,8 +1,7 @@
 # Shipping API
 
-This is a shipping API built with Node.js and SQLite. The API provides endpoints for user authentication, retrieving shipping rates, and creating shipments with tracking numbers.
-
-Exclusively created for SandBox HSI, November 2024
+- This dummy API is exclusively created for SandBox HSI, November 2024
+- The API provides endpoints for user authentication, retrieving shipping rates, and creating shipments with tracking numbers.
 
 ## Features
 
