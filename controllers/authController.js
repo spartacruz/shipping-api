@@ -1,14 +1,12 @@
-// authController.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 dotenv.config();
 
-// Login function
 exports.login = (req, res) => {
     const { email, password } = req.body;
-    console.log("Login attempt with email:", email, "and password:", password);
+    console.log("Login attempt with email:", email);
 
     User.findByEmail(email, (err, user) => {
         if (err) {
@@ -20,8 +18,6 @@ exports.login = (req, res) => {
             console.log("User not found.");
             return res.status(401).json({ status: "error", message: "Invalid email or password" });
         }
-
-        console.log("Stored hashed password:", user.password);
 
         if (!bcrypt.compareSync(password.trim(), user.password)) {
             console.log("Password mismatch.");
