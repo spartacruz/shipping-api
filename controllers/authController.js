@@ -29,7 +29,6 @@ exports.login = (req, res) => {
     });
 };
 
-// Registration function
 exports.register = (req, res) => {
     const { email, password } = req.body;
 

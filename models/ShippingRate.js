@@ -12,7 +12,7 @@ const ShippingRate = {
     });
   },
 
-  // New method to validate a specific rate by origin, destination, and service
+  // To validate a specific rate by origin, destination, and service
   findRate: (origin, destination, service, callback) => {
     const sql = "SELECT * FROM ShippingRates WHERE origin = ? AND destination = ? AND service = ?";
     db.get(sql, [origin, destination, service], (err, row) => {
