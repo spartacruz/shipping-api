@@ -109,7 +109,12 @@ exports.createShipment = (req, res) => {
                     if (err) {
                         return res.status(500).json({ status: "error", message: "Error creating shipment" });
                     }
-                    res.status(201).json({ status: "success", shipmentId: newShipment.id, trackingNumber });
+                    res.status(201).json({
+                        status: "success",
+                        message: "Shipment created successfully.",
+                        shipmentId: newShipment.id,
+                        trackingNumber
+                    });
                 }
             );
         });
