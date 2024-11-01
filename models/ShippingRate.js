@@ -8,7 +8,7 @@ const ShippingRate = {
           console.error("Error retrieving shipping rates:", err);
           return callback(err);
         }
-        callback(null, rows); // rows will now include estimated_delivery
+        callback(null, rows);
       });
     }
   };

@@ -51,16 +51,19 @@ db.serialize(() => {
   const shippingRates = [
     { origin: 'Jakarta', destination: 'Bandung', service: 'standard', rate: 10000, estimated_delivery: '3-5 business days' },
     { origin: 'Jakarta', destination: 'Bandung', service: 'express', rate: 20000, estimated_delivery: '1-2 business days' },
-    { origin: 'Jakarta', destination: 'Bandung', service: 'instant', rate: 40000, estimated_delivery: '1-2 hours' },
+    { origin: 'Jakarta', destination: 'Bandung', service: 'instant', rate: 500000, estimated_delivery: '1-2 hours' },
+
     { origin: 'Bandung', destination: 'Jakarta', service: 'standard', rate: 10000, estimated_delivery: '3-5 business days' },
     { origin: 'Bandung', destination: 'Jakarta', service: 'express', rate: 20000, estimated_delivery: '1-2 business days' },
-    { origin: 'Bandung', destination: 'Jakarta', service: 'instant', rate: 40000, estimated_delivery: '1-2 hours' },
+    { origin: 'Bandung', destination: 'Jakarta', service: 'instant', rate: 500000, estimated_delivery: '1-2 hours' },
+
     { origin: 'Jakarta', destination: 'Padang', service: 'standard', rate: 25000, estimated_delivery: '5-7 business days' },
     { origin: 'Jakarta', destination: 'Padang', service: 'express', rate: 50000, estimated_delivery: '2-4 business days' },
-    { origin: 'Jakarta', destination: 'Padang', service: 'instant', rate: 150000, estimated_delivery: '1-2 hours' },
+    { origin: 'Jakarta', destination: 'Padang', service: 'instant', rate: 1000000, estimated_delivery: '1-2 hours' },
+
     { origin: 'Padang', destination: 'Jakarta', service: 'standard', rate: 25000, estimated_delivery: '5-7 business days' },
     { origin: 'Padang', destination: 'Jakarta', service: 'express', rate: 50000, estimated_delivery: '2-4 business days' },
-    { origin: 'Padang', destination: 'Jakarta', service: 'instant', rate: 150000, estimated_delivery: '1-2 hours' }
+    { origin: 'Padang', destination: 'Jakarta', service: 'instant', rate: 1000000, estimated_delivery: '1-2 hours' }
   ];
 
   shippingRates.forEach((rate) => {
