@@ -9,6 +9,10 @@ exports.getShippingRates = (req, res) => {
         return res.status(400).json({ status: "error", message: "Missing required parameters: origin, destination, and weight are required." });
     }
 
+    if (!/^\d+(\.\d{1,2})?$/.test(weight)) {
+        return res.status(400).json({ status: "error", message: "Invalid weight format. Use a dot for decimals, and ensure no more than two decimal places." });
+    }
+
     const weightNum = parseFloat(weight);
 
     // Fetch min and max weight configurations
@@ -43,7 +47,7 @@ exports.getShippingRates = (req, res) => {
                     destination: rate.destination,
                     service: rate.service,
                     rate: rate.rate,
-                    calculatedRate: weightNum * rate.rate,  // Calculate based on weight
+                    calculatedRate: Math.floor(weightNum * rate.rate),
                     estimated_delivery: rate.estimated_delivery
                 }));
 
