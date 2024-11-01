@@ -58,9 +58,9 @@ exports.getShippingRates = (req, res) => {
 };
 
 exports.createShipment = (req, res) => {
-    const { origin, destination, weight, service, recipientName, recipientPhone, recipientEmail } = req.body;
+    const { origin, destination, weight, service } = req.body;
+    const { name: recipientName, phone: recipientPhone, email: recipientEmail } = req.body.recipient || {};
     const userId = req.user.id;
-    const trackingNumber = `TRACK${Math.floor(Math.random() * 1000000)}`;
 
     // Validate recipient information
     if (!recipientName || !recipientPhone || !recipientEmail) {
@@ -78,26 +78,40 @@ exports.createShipment = (req, res) => {
         }
 
         // Calculate the total cost
-        const calculatedRate = Math.floor(weight * rate.rate); // Round down for consistent pricing
+        const calculatedRate = Math.floor(weight * rate.rate);
 
-        // Create the shipment record
-        Shipment.create(
-            userId,
-            origin,
-            destination,
-            weight,
-            service,
-            recipientName,
-            recipientPhone,
-            recipientEmail,
-            trackingNumber,
-            calculatedRate,
-            (err, newShipment) => {
-                if (err) {
-                    return res.status(500).json({ status: "error", message: "Error creating shipment" });
-                }
-                res.status(201).json({ status: "success", shipmentId: newShipment.id, trackingNumber });
+        // Generate tracking number based on date and running number
+        const today = new Date();
+        const todayDate = today.toISOString().split('T')[0].replace(/-/g, ''); // Format as YYYYMMDD
+
+        // Fetch the current count of shipments with today's date in the tracking number
+        Shipment.getDailyCount(todayDate, (err, count) => {
+            if (err) {
+                return res.status(500).json({ status: "error", message: "Error generating tracking number" });
             }
-        );
+
+            const runningNumber = String(count + 1).padStart(4, '0'); // Ensure a 4-digit running number
+            const trackingNumber = `AWB${todayDate}${runningNumber}`;
+
+            // Create the shipment record
+            Shipment.create(
+                userId,
+                origin,
+                destination,
+                weight,
+                service,
+                recipientName,
+                recipientPhone,
+                recipientEmail,
+                trackingNumber,
+                calculatedRate,
+                (err, newShipment) => {
+                    if (err) {
+                        return res.status(500).json({ status: "error", message: "Error creating shipment" });
+                    }
+                    res.status(201).json({ status: "success", shipmentId: newShipment.id, trackingNumber });
+                }
+            );
+        });
     });
 };
