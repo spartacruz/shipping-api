@@ -44,8 +44,7 @@ exports.getShippingRates = (req, res) => {
                     service: rate.service,
                     rate: rate.rate,
                     calculatedRate: weightNum * rate.rate,  // Calculate based on weight
-                    estimated_delivery: rate.service === 'instant' ? '1-2 hours' :
-                        rate.service === 'express' ? '1-2 business days' : '3-5 business days'
+                    estimated_delivery: rate.estimated_delivery
                 }));
 
                 res.json({ status: "success", rates: adjustedRates });
