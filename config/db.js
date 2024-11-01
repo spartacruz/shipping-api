@@ -49,19 +49,18 @@ db.serialize(() => {
 
   // Insert shipping rates only if they don't already exist
   const shippingRates = [
-    { origin: 'Jakarta', destination: 'Bandung', service: 'standard', rate: 10000 },
-    { origin: 'Jakarta', destination: 'Bandung', service: 'express', rate: 20000 },
-    { origin: 'Jakarta', destination: 'Bandung', service: 'instant', rate: 40000 },
-    { origin: 'Bandung', destination: 'Jakarta', service: 'standard', rate: 10000 },
-    { origin: 'Bandung', destination: 'Jakarta', service: 'express', rate: 20000 },
-    { origin: 'Bandung', destination: 'Jakarta', service: 'instant', rate: 40000 },
-
-    { origin: 'Jakarta', destination: 'Padang', service: 'standard', rate: 25000 },
-    { origin: 'Jakarta', destination: 'Padang', service: 'express', rate: 50000 },
-    { origin: 'Jakarta', destination: 'Padang', service: 'instant', rate: 150000 },
-    { origin: 'Padang', destination: 'Jakarta', service: 'standard', rate: 25000 },
-    { origin: 'Padang', destination: 'Jakarta', service: 'express', rate: 50000 },
-    { origin: 'Padang', destination: 'Jakarta', service: 'instant', rate: 150000 },
+    { origin: 'Jakarta', destination: 'Bandung', service: 'standard', rate: 10000, estimated_delivery: '3-5 business days' },
+    { origin: 'Jakarta', destination: 'Bandung', service: 'express', rate: 20000, estimated_delivery: '1-2 business days' },
+    { origin: 'Jakarta', destination: 'Bandung', service: 'instant', rate: 40000, estimated_delivery: '1-2 hours' },
+    { origin: 'Bandung', destination: 'Jakarta', service: 'standard', rate: 10000, estimated_delivery: '3-5 business days' },
+    { origin: 'Bandung', destination: 'Jakarta', service: 'express', rate: 20000, estimated_delivery: '1-2 business days' },
+    { origin: 'Bandung', destination: 'Jakarta', service: 'instant', rate: 40000, estimated_delivery: '1-2 hours' },
+    { origin: 'Jakarta', destination: 'Padang', service: 'standard', rate: 25000, estimated_delivery: '5-7 business days' },
+    { origin: 'Jakarta', destination: 'Padang', service: 'express', rate: 50000, estimated_delivery: '2-4 business days' },
+    { origin: 'Jakarta', destination: 'Padang', service: 'instant', rate: 150000, estimated_delivery: '1-2 hours' },
+    { origin: 'Padang', destination: 'Jakarta', service: 'standard', rate: 25000, estimated_delivery: '5-7 business days' },
+    { origin: 'Padang', destination: 'Jakarta', service: 'express', rate: 50000, estimated_delivery: '2-4 business days' },
+    { origin: 'Padang', destination: 'Jakarta', service: 'instant', rate: 150000, estimated_delivery: '1-2 hours' }
   ];
 
   shippingRates.forEach((rate) => {
@@ -73,13 +72,13 @@ db.serialize(() => {
           console.error("Error checking existing data:", err);
         } else if (!row) {
           db.run(
-            "INSERT INTO ShippingRates (origin, destination, service, rate) VALUES (?, ?, ?, ?)",
-            [rate.origin, rate.destination, rate.service, rate.rate],
+            "INSERT INTO ShippingRates (origin, destination, service, rate, estimated_delivery) VALUES (?, ?, ?, ?, ?)",
+            [rate.origin, rate.destination, rate.service, rate.rate, rate.estimated_delivery],
             (err) => {
               if (err) {
                 console.error("Error inserting data:", err);
               } else {
-                console.log(`Inserted rate: ${rate.service} from ${rate.origin} to ${rate.destination}`);
+                console.log(`Inserted rate: ${rate.service} from ${rate.origin} to ${rate.destination} with estimated delivery: ${rate.estimated_delivery}`);
               }
             }
           );
