@@ -2,6 +2,7 @@
 
 - This dummy API is exclusively created for SandBox HSI, November 2024
 - The API provides endpoints for user authentication, retrieving shipping rates, and creating shipments with tracking numbers.
+- **This API is intentionally designed with certain flaws and edge cases.** Some of these flaws may even cause server termination or system errors under specific conditions. Users are encouraged to identify and document these behaviors (critical bug/defect) and are welcome to try fixing them through (local) code revisions.
 
 ## Features
 
