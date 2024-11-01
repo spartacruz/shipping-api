@@ -33,6 +33,7 @@ db.serialize(() => {
       recipientPhone TEXT,
       recipientEmail TEXT,
       trackingNumber TEXT,
+      calculatedRate REAL,
       FOREIGN KEY(userId) REFERENCES Users(id)
     )
   `);
