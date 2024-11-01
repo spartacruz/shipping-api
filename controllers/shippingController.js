@@ -59,11 +59,45 @@ exports.getShippingRates = (req, res) => {
 
 exports.createShipment = (req, res) => {
     const { origin, destination, weight, service, recipientName, recipientPhone, recipientEmail } = req.body;
-    const trackingNumber = `TRACK${Math.floor(Math.random() * 1000000)}`;
     const userId = req.user.id;
+    const trackingNumber = `TRACK${Math.floor(Math.random() * 1000000)}`;
 
-    Shipment.create(userId, origin, destination, weight, service, recipientName, recipientPhone, recipientEmail, trackingNumber, (err, shipment) => {
-        if (err) return res.status(500).json({ status: "error", message: "Internal server error" });
-        res.status(201).json({ status: "success", shipmentId: shipment.id, trackingNumber });
+    // Validate recipient information
+    if (!recipientName || !recipientPhone || !recipientEmail) {
+        return res.status(400).json({ status: "error", message: "Recipient name, phone, and email are required." });
+    }
+
+    // Validate that the specified origin, destination, and service exist in ShippingRates
+    ShippingRate.findRate(origin, destination, service, (err, rate) => {
+        if (err) {
+            return res.status(500).json({ status: "error", message: "Internal server error" });
+        }
+
+        if (!rate) {
+            return res.status(400).json({ status: "error", message: "Invalid origin, destination, or service. Please select a valid shipping option." });
+        }
+
+        // Calculate the total cost
+        const calculatedRate = Math.floor(weight * rate.rate); // Round down for consistent pricing
+
+        // Create the shipment record
+        Shipment.create(
+            userId,
+            origin,
+            destination,
+            weight,
+            service,
+            recipientName,
+            recipientPhone,
+            recipientEmail,
+            trackingNumber,
+            calculatedRate,
+            (err, newShipment) => {
+                if (err) {
+                    return res.status(500).json({ status: "error", message: "Error creating shipment" });
+                }
+                res.status(201).json({ status: "success", shipmentId: newShipment.id, trackingNumber });
+            }
+        );
     });
 };
