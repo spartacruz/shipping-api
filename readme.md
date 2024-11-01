@@ -51,6 +51,8 @@
 The database is set up automatically on the first run with tables for `Users`, `ShippingRates`, `Shipments`, and `Config`. Seed data for `ShippingRates` is also automatically inserted.
 
 ## API Endpoints
+API Documentation: https://sandboxhsiapidocs.notion.site/
+
 
 ### 1. Authentication
 
